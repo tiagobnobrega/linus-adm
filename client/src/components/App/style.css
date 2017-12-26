@@ -1,0 +1,7 @@
+.App > .ui.segment.pushable {
+  margin-top: 49px;
+  border: 0;
+  border-radius: 0; }
+
+.App .app-content-container {
+  min-height: 100vh; }
