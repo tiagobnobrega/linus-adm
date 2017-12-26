@@ -5,7 +5,7 @@ const ctrl = new WebBeeController('/api');
 
 ctrl.config([
   {
-    path: '/bot',
+    path: '/bots',
     methods: 'GET',
     run: async (ctx) => {
       const bots = await BotStore.findAll();
@@ -24,7 +24,7 @@ ctrl.config([
     },
   },
   {
-    path: '/delete-bot',
+    path: '/bots/remove',
     methods: 'POST,PUT,PATCH,DELETE',
     run: async (ctx) => {
       const body = [...ctx.request.body];

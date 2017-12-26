@@ -1,0 +1,12 @@
+$selected-color:#78E4BE;
+
+.bot-list{
+  .card.bot-card>.content{
+    &:hover{
+      cursor:pointer;
+      &>.header{
+        color:$selected-color
+      }
+    }
+  }
+}

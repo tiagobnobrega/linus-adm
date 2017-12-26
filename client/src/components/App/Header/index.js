@@ -31,9 +31,8 @@ export default class Header extends React.Component{
               src={logo}
               style={{ marginRight: '1.5em' }}
             />
-            Project Name
+            Linus Adm
           </Menu.Item>
-          <Menu.Item as='a'>Home</Menu.Item>
         </Container>
       </Menu>
     );

@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 
 import NotFound from '../../containers/NotFound';
-import Home from '../../containers/Home';
+import BotList from '../../containers/BotList';
 import About from '../../containers/About';
 import ProjectList from '../../containers/Projects';
 
@@ -29,10 +29,10 @@ class App extends Component {
         <Sidebar visible={sidebarVisible}>
           <div className="app-content-container">
               <Switch>
-                <Route exact path="/home" component={Home}/>
+                <Route exact path="/bots" component={BotList}/>
                 <Route exact path="/about" component={About}/>
                 <Route exact path="/projects" component={ProjectList}/>
-                <Redirect exact from="/" to="/home"/>
+                <Redirect exact from="/" to="/bots"/>
                 <Route component={NotFound}/>
               </Switch>
           </div>

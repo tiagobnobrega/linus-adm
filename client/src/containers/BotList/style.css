@@ -1,0 +1,4 @@
+.bot-list .card.bot-card > .content:hover {
+  cursor: pointer; }
+  .bot-list .card.bot-card > .content:hover > .header {
+    color: #78E4BE; }
