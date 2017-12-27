@@ -1,0 +1,125 @@
+.app-content-container > .ui.container.diagram{
+  display: flex;
+  flex: 1;
+  margin: 0!important;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAG0lEQVQYV2P89OnTfwY0wAgS5OPjY0QWp1AQAKflE9uUxvPHAAAAAElFTkSuQmCC") repeat!important;
+
+  .diagram-container{
+    display: flex;
+    flex: 1;
+    flex-grow: 1;
+
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    &:active,&:focus{
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+    }
+
+    .react-js-diagrams-canvas{
+      position: relative;
+      flex:1;
+
+      .point {
+        fill: rgba(white,0.5);
+        &.selected {
+          fill: rgb(0,192,255);
+        }
+      }
+
+      .selector {
+        position: absolute;
+        background-color: rgba(0,192,255,0.2);
+        border: solid 2px rgb(0,192,255);
+      }
+
+      svg {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        transform-origin: 0 0;
+        overflow: visible !important;//semantic-ui overrides setting to hide
+      }
+
+      .node-view {
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        position: absolute;
+        pointer-events: none;
+        transform-origin: 0 0;
+        z-index: 1;
+      }
+
+      .node {
+        position: absolute;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none;   /* Chrome/Safari/Opera */
+        user-select: none;
+        cursor: move;
+        pointer-events: all;
+
+        &.selected {
+          >* {
+            border-color:rgb(0,192,255) !important;
+            -webkit-filter: drop-shadow( 0 0 20px rgba(0,192,255,0.5));
+          }
+        }
+      }
+
+      @keyframes dash {
+        from {
+          stroke-dashoffset: 24;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes dash2 {
+        from{
+          stroke-dashoffset: 50;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      path{
+        fill:none;
+        pointer-events:all;
+        //stroke: url(#rjd-linear-grad);
+        //stroke:#0CC4AF;
+        stroke-width: 5;
+        //filter: url(#rjd-dropshadow); muito pesado
+        &.selected {
+          stroke-dasharray: 25;
+          stroke-dashoffset: 0;
+          animation: dash2 1s linear infinite;
+        }
+      }
+
+    }
+  }
+  .float-actions{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    .button{
+      display: block;
+      width: 50px;
+      height:50px;
+      padding: 0;
+      margin: 4px 0;
+      box-shadow: 7px 7px 10px 0px rgba(0, 0, 0, 0.48) !important;
+      .save{
+        padding: 3px;
+        font-size: 18px;
+      }
+    }
+  }
+}

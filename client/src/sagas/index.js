@@ -7,6 +7,8 @@ import {
 
 import {getAllBotsSaga, removeAndReloadBotSaga,saveAndReloadBotSaga} from './botSagas';
 
+import {getAllNodesSaga} from './diagramSagas';
+
 export function* watchProjects() {
   yield takeEvery(TYPES.PROJECT_GET_ALL, getAllProjectsSaga);
   yield takeLatest(TYPES.PROJECT_GET_ONE, getProjectByIdSaga);
@@ -19,4 +21,11 @@ export function* watchBots() {
   // yield takeLatest(TYPES.PROJECT_GET_ONE, getProjectByIdSaga);
   yield takeLatest(TYPES.BOT_REMOVE_AND_RELOAD, removeAndReloadBotSaga);
   yield takeLatest(TYPES.BOT_SAVE_AND_RELOAD, saveAndReloadBotSaga);
+}
+
+export function* watchDiagram() {
+  yield takeEvery(TYPES.DIAGRAM_GET_NODES, getAllNodesSaga);
+  // yield takeLatest(TYPES.PROJECT_GET_ONE, getProjectByIdSaga);
+  // yield takeLatest(TYPES., removeAndReloadBotSaga);
+  // yield takeLatest(TYPES.BOT_SAVE_AND_RELOAD, saveAndReloadBotSaga);
 }

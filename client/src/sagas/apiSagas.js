@@ -4,22 +4,31 @@ import * as actions from '../actions/botActions';
 
 export function* apiGetSaga({url,requestAction,successAction,failAction}){
   try {
-    yield put(requestAction());
+    if(requestAction) yield put(requestAction());
     const response = yield axios.get(url);
-    yield put(successAction(response.data.data));
+    if(successAction) yield put(successAction(response.data.data));
+    return response.data.data;
   }catch (err){
-    console.error(err);
-    yield put(failAction(err));
+    if(failAction){
+      console.error(err);
+      yield put(failAction(err));
+    } else{
+      throw err;
+    }
   }
 }
 
 export function* apiPostSaga({url,postData,requestAction,successAction,failAction}){
   try {
-    yield put(requestAction());
+    if(requestAction) yield put(requestAction());
     const response = yield axios.post(url,postData);
-    yield put(successAction(response.data));
+    if(successAction) yield put(successAction(response.data));
   }catch (err){
-    console.error('apiPostSaga:',err);
-    yield put(failAction(err));
+    if(failAction){
+      console.error(err);
+      yield put(failAction(err));
+    } else{
+      throw err;
+    }
   }
 }

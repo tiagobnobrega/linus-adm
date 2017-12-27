@@ -10,7 +10,7 @@ export default class BotEditForm extends FormChange {
     botNames: PropTypes.array.isRequired,
   }
   static defaultProps = {
-    "_id": null,
+    "_id": undefined,
     "name": "",
     "description": ""
   };
@@ -90,7 +90,10 @@ export default class BotEditForm extends FormChange {
         <Form className="form-dialog">
           {/*<Header content={'Editando: ' + this.state.bot.name}/>*/}
           <div className="row form-group">
-            <small>{`_id:${bot._id}`}</small>
+            {bot._id ?
+              <small>{`_id:${bot._id}`}</small>
+              :<small>New Bot</small>
+            }
           </div>
           <div className="row form-group">
             <label className="large-2 column">Nome: </label>

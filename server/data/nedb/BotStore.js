@@ -17,7 +17,7 @@ class BotStore extends NeDB {
     const items = _.castArray(itemsArg);
     items.forEach((e) => {
       assert.notEqual(e.name, '', 'Bot must have a name');
-      assert.notEqual(e.description, '', 'bots must have a description');
+      // assert.notEqual(e.description, '', 'bots must have a description');
     });
   }
 
