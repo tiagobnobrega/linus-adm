@@ -28,6 +28,9 @@ export default class BotEditForm extends FormChange {
 
   }
 
+  isValid(){
+    return !this.state.invalid.name;
+  }
   getBot() {
     return this.state.bot;
   }

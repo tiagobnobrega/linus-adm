@@ -42,4 +42,4 @@ export const removeBotFail =  createAction(TYPES.BOT_REMOVE_FAIL);
 
 
 export const removeAndReloadBot = createAction(TYPES.BOT_REMOVE_AND_RELOAD, (bot) => (bot));
-export const saveAndReloadBot = createAction(TYPES.BOT_SAVE_AND_RELOAD, (project) => ({project}));
+export const saveAndReloadBot = createAction(TYPES.BOT_SAVE_AND_RELOAD, (bot) => (bot));

@@ -19,18 +19,13 @@ class BotList extends React.Component {
   constructor(props){
     super(props);
 
-    bindAll(this,['renderBotCard','renderCards','botCardClick','botCardEdit','botCardRemove','closeBotModal'])
+    bindAll(this,['renderBotCard','renderNewBotCard','renderCards',
+      'botCardClick','botCardEdit','botCardRemove','closeBotModal','botModalSave'
+    ]);
   }
 
   componentDidMount(){
     this.props.getAllBots();
-  }
-
-  renderCards(){
-    const { allBots } = this.props;
-    return (<Card.Group>
-      {allBots.map(this.renderBotCard)}
-    </Card.Group>);
   }
 
   botCardClick(bot){
@@ -53,10 +48,38 @@ class BotList extends React.Component {
         this.props.removeAndReloadBot(bot);
       }
     })
-
   }
+
   closeBotModal(){
     this.props.selectBot(undefined);
+  }
+
+  botModalSave(bot){
+    this.props.saveAndReloadBot(bot);
+  }
+
+  renderCards(){
+    const { allBots } = this.props;
+    return (<Card.Group>
+      {allBots.map(this.renderBotCard)}
+      {this.renderNewBotCard()}
+    </Card.Group>);
+  }
+
+  renderNewBotCard(){
+    return(
+    <Card className='bot-card new-bot' key='__newBot__'>
+      <Card.Content onClick={()=>this.botCardEdit({})}>
+        <Image floated='right' size='tiny' src={botAvatar} />
+        <Card.Header>
+          New Bot
+        </Card.Header>
+        <Card.Description>
+          Click here to add a new bot!
+        </Card.Description>
+      </Card.Content>
+    </Card>
+    )
   }
 
   renderBotCard(bot){
@@ -86,7 +109,7 @@ class BotList extends React.Component {
     console.log('selectedBot',{selectedBot});
     if(!selectedBot) return null;
     return(
-      <BotEditmodal bot={selectedBot} botNames={botNames} onClose={this.closeBotModal} />
+      <BotEditmodal bot={selectedBot} botNames={botNames} onClose={this.closeBotModal}  onSave={this.botModalSave}/>
     )
   }
   render() {
@@ -100,12 +123,10 @@ class BotList extends React.Component {
             :
             this.renderCards()
           }
-          <button onClick={this.handleNewProject}>New Project</button>
         </div>
         <hr />
         <div>
           {this.renderSelectedBotModal()}
-          {/*{this.renderSelectedProject(selectedProject)}*/}
         </div>
       </Container>
     );

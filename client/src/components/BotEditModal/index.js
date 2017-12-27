@@ -19,7 +19,9 @@ export default class BotEditmodal extends Component{
 
   clickSave(){
     const {onSave} = this.props;
-    if(onSave) onSave(this.form.getBot());
+    if(this.form.isValid()){
+      if(onSave) onSave(this.form.getBot());
+    }
   }
 
   render(){
