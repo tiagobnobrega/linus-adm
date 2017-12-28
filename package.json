@@ -19,7 +19,7 @@
     "start": "yarn run server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd ./client && yarn run build",
-    "dev": "start yarn run client && start yarn run server-dev",
+    "dev": "yarn run client && yarn run server-dev",
     "dev-client": "run-p -n server client",
     "server": "cd ./server && yarn start",
     "server-dev": "cd ./server && yarn run dev",
