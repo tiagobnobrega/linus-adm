@@ -1,5 +1,5 @@
 import React from 'react';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from 'storm-react-diagrams';
 import { DialogNodeWidget } from './DialogNodeWidget';
 
 class DialogNodeFactory extends RJD.NodeWidgetFactory {

@@ -30,7 +30,7 @@ export class DialogNodeWidget extends React.Component {
       <div className='dialog-node'>
         <div className="header">
           <div className="title">
-            <a className="name" onClick={()=>{node.onEdit(node)}}>{node.name}</a>
+            <a className="name" data-role="node-name" onClick={()=>{node.onEdit(node)}}>{node.name}</a>
           </div>
           <div className="icon" style={(node.color? {background:node.color}:{background:"#ccc"}  )}>
               <i className={(node.icon? node.icon : "comments big icon")} />

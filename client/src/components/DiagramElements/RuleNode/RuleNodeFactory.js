@@ -1,5 +1,5 @@
 import React from 'react';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from 'storm-react-diagrams';
 import { RuleNodeWidget } from './RuleNodeWidget';
 
 class RuleNodeFactory extends RJD.NodeWidgetFactory {

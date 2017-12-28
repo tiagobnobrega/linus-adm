@@ -1,4 +1,4 @@
-import * as RJD from 'react-js-diagrams';
+import * as RJD from 'storm-react-diagrams';
 
 
 export class RulePortModel extends RJD.PortModel {

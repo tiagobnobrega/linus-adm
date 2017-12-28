@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from 'storm-react-diagrams';
 import {DialogNodeFactory} from './DialogNodeFactory'
 
 export class DialogNodeModel extends RJD.NodeModel {

@@ -7,7 +7,7 @@ import {getActiveDialogs, getActiveRules, getRemovedNodes, getUpdatedNodes} from
 import _ from 'lodash';
 import _random from 'lodash/random';
 import _bindAll from 'lodash/bindAll';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from 'storm-react-diagrams';
 import * as Dialog from '../../components/DiagramElements/DialogNode';
 import * as Rule from '../../components/DiagramElements/RuleNode';
 import {Dimmer, Loader} from 'semantic-ui-react';
@@ -36,7 +36,7 @@ class Diagram extends Component {
       'postProcess': null,
       'modalDeleteOpen': false,
       'dialogEdit': undefined,
-      'ruleEdit':undefined,
+      'ruleEdit': undefined,
     };
     // this.onEditDialog = props.onEditDialog;
     // this.onEditRule = props.onEditRule;
@@ -51,7 +51,8 @@ class Diagram extends Component {
 
     _bindAll(this, ['_loadBotNodes', '_handleClickSalvar', 'getDiagramCenter',
       '_handleConfirmDelete', 'renderDiagram', '_buidDialogNodes', '_handleClickAddDialog',
-      'onEditDialog','onCloseEditDialog','onEditRule','onCloseEditRule','_handleChange'
+      'onEditDialog', 'onCloseEditDialog', 'onEditRule', 'onCloseEditRule', '_handleChange',
+      'handleActionStoppedFiring'
     ]);
   }
 
@@ -61,12 +62,22 @@ class Diagram extends Component {
     this.engine.registerNodeFactory(new RJD.DefaultNodeFactory());
     this.engine.registerNodeFactory(new Dialog.DialogNodeFactory());
     this.engine.registerNodeFactory(new Rule.RuleNodeFactory());
-    this.engine.registerLinkFactory(new RJD.DefaultLinkFactory());
+    // this.engine.registerLinkFactory(new RJD.DefaultLinkFactory());
     this.engine.registerLinkFactory(new LinkFactoryExt());
+    this.engine.addListener(
+      {repaintCanvas:()=>console.log('repaintCanvas')}
+    )
 
     //setup diagram model
     this.model = new RJD.DiagramModel();
     this.model.setZoomLevel(this.defaultDiagramZoom);
+
+    this.model.addListener({
+      actionStoppedFiring: () => {
+        console.log('actionStoppedFiring')
+      },
+    });
+
 
     //build event function map
     this.eventMap = {
@@ -84,18 +95,19 @@ class Diagram extends Component {
     };
   }
 
-  onEditRule(rule){
+  onEditRule(rule) {
     this.setState({'ruleEdit': rule});
   }
-  onCloseEditRule(){
-    console.log('onCloseEditRule!!!!!!!');
+
+  onCloseEditRule() {
     this.setState({'ruleEdit': undefined});
   }
+
   onEditDialog(dialog) {
     this.setState({'dialogEdit': dialog});
   }
 
-  onCloseEditDialog(){
+  onCloseEditDialog() {
     this.setState({'dialogEdit': undefined});
   }
 
@@ -106,8 +118,8 @@ class Diagram extends Component {
   componentWillUpdate() {
     const {offsetX, offsetY, zoom} = this.model;
     // console.log(this.model);
-    console.log('ComponentWillUpdate... reloading model!');
     this.model = new RJD.DiagramModel();
+
     this.model.setOffset(offsetX, offsetY);
     this.model.setZoomLevel(zoom);
   };
@@ -198,6 +210,7 @@ class Diagram extends Component {
   }
 
   _handleChange(model, action) {
+    console.log({model, action});
     (this.eventMap[action.type] || this.eventMap['__default']).call(this, model, action);
   }
 
@@ -240,14 +253,16 @@ class Diagram extends Component {
 
   _curryEditDialog(dialog) {
     return () => {
-      this.diagramWidget.selectAll(false);
+      // console.log(this.diagramWidget);
+      // this.diagramWidget.selectAll(false);
       this.onEditDialog(dialog)
     };
   }
 
   _curryEditRule(rule) {
     return () => {
-      this.diagramWidget.selectAll(false);
+      // console.log(this.diagramWidget);
+      // this.diagramWidget.selectAll(false);
       this.onEditRule(rule)
     };
   }
@@ -273,6 +288,17 @@ class Diagram extends Component {
       });
       let obj = {id: dialog.id, node, inPort, outPort, dialog};
       dialogEntryIndex[obj.id] = obj;
+
+      node.addListener({
+        // selectionChanged: (node, isSelected) => {
+        //   console.info('selectionChanged', node);
+        //   console.info('isSelected', isSelected);
+        // },
+        lockChanged:()=>{console.log('lockChanged')},
+        entityRemoved:(node) => {
+          console.info('entityRemoved', node);
+        },
+      });
       return obj;
     });
     return {dialogEntryIndex, dialogEntryArr};
@@ -281,7 +307,6 @@ class Diagram extends Component {
   _buildRulesNodes() {
     let ruleEntryIndex = {};
     let defaultColor = Diagram.defaultColors.dialog;
-    console.log('_buildRulesNodes',{rules:this.props.rules});
     let ruleEntryArr = this.props.rules.map((rule) => {
       let nodeColor = defaultColor;
       let dialogEntry = this._getDialogEntryById(rule.dialog);
@@ -303,7 +328,6 @@ class Diagram extends Component {
           return node.addPort(new Rule.RulePortModel(false, 'OUT_' + rule.id + "_" + ind, `Action [${ind}]`, __error));
         })
       );
-      console.log(rule.id,rule);
       let obj = {id: rule.id, outPorts, inPort, node, rule};
       ruleEntryIndex[obj.id] = obj;
       return obj;
@@ -332,7 +356,6 @@ class Diagram extends Component {
               console.warn("Target dialog does not exists: " + a.goToDialog + "@" + re.rule.id + ".actions[" + i + "]");
             } else {
               //montar link
-              console.log('MontarLinks regras > dialogos:',{re,dialogEntry})
               model.addLink(this._linkNodes(re.outPorts[i], dialogEntry.inPort, (dialogEntry.dialog.meta.color || Diagram.defaultColors.dialog)))
             }
 
@@ -343,12 +366,10 @@ class Diagram extends Component {
         // if(!dialogEntry) throw new Error("dialogo origem não existente: "+re.rule.dialog+"@"+re.rule.id);
         if (!dialogEntry) {
           re.rule._error = true;
-          console.warn("Source dialog does not exists: " + re.rule.dialog + "@" + re.rule.id, re,this.dialogEntryIndex);
+          console.warn("Source dialog does not exists: " + re.rule.dialog + "@" + re.rule.id, re, this.dialogEntryIndex);
         } else {
           //montar link dos dialogos para as regras
-          console.log('MontarLinks dialogos > regras:',{re,dialogEntry})
           model.addLink(this._linkNodes(dialogEntry.outPort, re.inPort, (dialogEntry.dialog.meta.color || Diagram.defaultColors.dialog)))
-          console.log(model);
         }
 
       }
@@ -364,7 +385,6 @@ class Diagram extends Component {
   }
 
   _buildDiagramModel() {
-    console.log('_buildDiagramModel:: rebuilding model...');
     const {engine, model} = this;
     //build dialogs
     let {dialogEntryIndex, dialogEntryArr} = this._buidDialogNodes();
@@ -407,6 +427,34 @@ class Diagram extends Component {
     )
   }
 
+  handleActionStoppedFiring(action,evt){
+    if(!evt) return;
+    const nameClick = (evt.target.dataset.role==='node-name');
+    console.log({action,target:evt.target, role:evt.target.dataset.role,nameClick});
+
+
+    if(action instanceof RJD.MoveItemsAction){
+      if(!nameClick){
+        console.log('NOT NAME CLICK!!!');
+        const models = action.selectionModels.map((e)=>e.model);
+        const dialogs = models.filter((e)=>e.nodeType==='dialog').map((e)=>({...e.source,meta:{...e.source.meta,x:e.x,y:e.y}}));
+        const rules = models.filter((e)=>e.nodeType==='rule').map((e)=>({...e.source,meta:{...e.source.meta,x:e.x,y:e.y}}));
+        this.props.updateRules(rules);
+        this.props.updateDialogs(dialogs);
+      }else{
+        console.log('NAME CLICK!!!');
+        const models = action.selectionModels.map((e)=>e.model);
+        const node = models.find((e)=>(e.nodeType==='dialog'||e.nodeType==='rule'));
+        if(node){
+          ({
+            'dialog':this.onEditDialog,
+            'rule':this.onEditRule
+          }[node.nodeType])(node.source);
+        }
+      }
+    }
+  }
+
   renderDiagram() {
     const {engine} = this;
     this._buildDiagramModel();
@@ -419,26 +467,22 @@ class Diagram extends Component {
             copy: false,
             paste: false
           }}
-          onChange={this._handleChange}/>
+          actionStoppedFiring={this.handleActionStoppedFiring}
+          />
       </div>
     )
   }
 
   render() {
-    // console.log("Diagram.render::init");
     const {botId, isFetching, lastFetchingStatus, isSaving, dialogs, rules} = this.props;
 
-    const {dialogEdit,ruleEdit} = this.state;
+    const {dialogEdit, ruleEdit} = this.state;
 
-    // console.log("Diagram.render::process="+state.process);
     if (isFetching) {
-      // console.log("Diagram.render::renderLoading...");
       return this.renderLoading();
     } else if (lastFetchingStatus === 'error') {
-      // console.log("Diagram.render::renderError...");
       return this.renderError();
     } else {
-      // console.log("Diagram.render::renderDiagram...");
       return (<Container className='diagram'>
         <Alert stack={{limit: 3, spacing: 50}} timeout={5000}/>
         {this.renderDiagram()}
@@ -480,16 +524,16 @@ class Diagram extends Component {
           ? <ModalDialog
             activeDialog={dialogEdit}
             onClose={this.onCloseEditDialog}
-          onSave={this.props.updateDialogs}
+            onSave={this.props.updateDialogs}
           />
-          :null}
+          : null}
 
         {ruleEdit
           ? <ModalRule
             activeRule={ruleEdit}
             onClose={this.onCloseEditRule}
             onSave={this.props.updateRules}/>
-          :null}
+          : null}
       </Container>);
     }
   }

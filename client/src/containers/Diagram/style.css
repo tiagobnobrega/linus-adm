@@ -16,24 +16,24 @@
       cursor: grabbing;
       cursor: -moz-grabbing;
       cursor: -webkit-grabbing; }
-    .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas {
+    .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas {
       position: relative;
       flex: 1; }
-      .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas .point {
+      .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas .point {
         fill: rgba(255, 255, 255, 0.5); }
-        .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas .point.selected {
+        .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas .point.selected {
           fill: #00c0ff; }
-      .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas .selector {
+      .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas .selector {
         position: absolute;
         background-color: rgba(0, 192, 255, 0.2);
         border: solid 2px #00c0ff; }
-      .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas svg {
+      .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas svg {
         position: absolute;
         height: 100%;
         width: 100%;
         transform-origin: 0 0;
         overflow: visible !important; }
-      .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas .node-view {
+      .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas .node-view {
         top: 0;
         left: 0;
         right: 0;
@@ -42,7 +42,7 @@
         pointer-events: none;
         transform-origin: 0 0;
         z-index: 1; }
-      .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas .node {
+      .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas .node {
         position: absolute;
         -webkit-touch-callout: none;
         /* iOS Safari */
@@ -51,7 +51,7 @@
         user-select: none;
         cursor: move;
         pointer-events: all; }
-        .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas .node.selected > * {
+        .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas .node.selected > * {
           border-color: #00c0ff !important;
           -webkit-filter: drop-shadow(0 0 20px rgba(0, 192, 255, 0.5)); }
 
@@ -66,11 +66,11 @@
     stroke-dashoffset: 50; }
   to {
     stroke-dashoffset: 0; } }
-      .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas path {
+      .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas path {
         fill: none;
         pointer-events: all;
         stroke-width: 5; }
-        .app-content-container > .ui.container.diagram .diagram-container .react-js-diagrams-canvas path.selected {
+        .app-content-container > .ui.container.diagram .diagram-container .storm-diagrams-canvas path.selected {
           stroke-dasharray: 25;
           stroke-dashoffset: 0;
           animation: dash2 1s linear infinite; }

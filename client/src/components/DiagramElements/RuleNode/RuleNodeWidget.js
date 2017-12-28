@@ -30,7 +30,7 @@ export class RuleNodeWidget extends React.Component {
             <div className='rule-node'>
               <div className="header">
                 <div className="title">
-                  <a className="name" onClick={()=>node.onEdit(node)}>{node.name}</a>
+                  <a className="name node-name" data-role="node-name" onClick={()=>node.onEdit(node)}>{node.name}</a>
                 </div>
                 <div className="icon" style={(node.color? {background:node.color}:{background:"#ccc"}  )}>
                   <i className={(node.icon? node.icon : "comment big icon")} />

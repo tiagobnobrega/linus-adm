@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import * as RJD from 'react-js-diagrams';
+import * as RJD from 'storm-react-diagrams';
 import {RuleNodeFactory} from './RuleNodeFactory';
 // import { NodeModel } from '../Common';
 // import { AbstractInstanceFactory } from '../AbstractInstanceFactory';
