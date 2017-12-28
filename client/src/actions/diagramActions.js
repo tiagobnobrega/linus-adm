@@ -44,4 +44,4 @@ export const saveDiagramRequest = createAction(TYPES.DIAGRAM_SAVE_REQUEST);
 export const saveDiagramSuccess = createAction(TYPES.DIAGRAM_SAVE_SUCCESS);
 export const saveDiagramFail = createAction(TYPES.DIAGRAM_SAVE_FAIL, error => (error));
 
-export const saveAndReloadDiagram = createAction(TYPES.DIAGRAM_SAVE_AND_RELOAD, nodes => (nodes));
+export const saveAndReloadDiagram = createAction(TYPES.DIAGRAM_SAVE_AND_RELOAD, ({toPersist,toRemove,botId}) => ({toPersist,toRemove,botId}));

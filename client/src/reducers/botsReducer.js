@@ -34,6 +34,6 @@ export const selectors = {
   'getBotNames':(state)=>{
     return state.allBots.map((b)=>b.name);
   }
-}
+};
 
 export default handleActions(HANDLERS,INITIAL_STATE);

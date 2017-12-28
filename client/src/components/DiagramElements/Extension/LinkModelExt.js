@@ -12,6 +12,14 @@ export default class LinkModelExt extends RJD.LinkModel {
         this.color="#000";
     }
 
+    setSourcePort(port){
+      this.sourcePort = port;
+    }
+
+  setTargetPort(port){
+    this.targetPort = port;
+  }
+
     setColor(color){
         this.color = color;
     }

@@ -1,4 +1,4 @@
-import {put, all} from 'redux-saga/effects';
+import {put, all, call} from 'redux-saga/effects';
 import {apiGetSaga, apiPostSaga} from './apiSagas'
 import * as actions from '../actions/diagramActions';
 
@@ -13,12 +13,48 @@ export function* getAllNodesSaga({payload: botId}) {
         url: `/api/rules?botId=${botId}`,
       })
     ])
-    yield put(actions.getAllNodesSuccess({dialogs,rules,botId}));
+    yield put(actions.getAllNodesSuccess({dialogs, rules, botId}));
   } catch (err) {
     console.error(err);
     yield put(actions.getAllNodesFail(err));
   }
 };
+
+export function* saveAndReloadDiagramSaga(action) {
+  const {botId} = action.payload;
+  yield put(actions.saveDiagramRequest());
+  try {
+    yield all([
+      call(saveDiagramSaga, action),
+      call(removeDiagramSaga, action)
+    ]);
+    yield put(actions.saveDiagramSuccess());
+  } catch (err) {
+    yield put(actions.saveDiagramFail(err));
+  }
+  yield put(actions.getAllNodes(botId));
+}
+
+function* saveDiagramSaga({payload}) {
+  const {toPersist} = payload;
+  const {dialogs, rules} = toPersist;
+
+  yield all([
+      call(apiPostSaga,{url: `/api/dialogs`, postData: dialogs}),
+      call(apiPostSaga,{url: `/api/rules`, postData: rules}),
+  ]);
+}
+
+function* removeDiagramSaga({payload}) {
+  const {toRemove} = payload;
+  const {dialogs, rules} = toRemove;
+
+  yield all([
+    ...dialogs.map((d) => apiPostSaga({url: `/api/dialogs/remove`, postData: d})),
+    ...rules.map((r) => apiPostSaga({url: `/api/rules/remove`, postData: r})),
+  ]);
+}
+
 
 export function* saveBotSaga({payload}) {
   // yield apiPostSaga({

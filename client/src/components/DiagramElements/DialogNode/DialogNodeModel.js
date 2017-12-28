@@ -3,7 +3,6 @@ import * as RJD from 'react-js-diagrams';
 import {DialogNodeFactory} from './DialogNodeFactory'
 
 export class DialogNodeModel extends RJD.NodeModel {
-  //TODO Alterar constructor para receber objeto com propriedades x,y, e meta
   constructor(name = 'Untitled', color = 'rgb(0,192,255)', onEdit, x=0, y=0, source={}) {
     super(DialogNodeFactory.TYPE);
     this.name = name;

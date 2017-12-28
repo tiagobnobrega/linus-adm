@@ -26,7 +26,7 @@ ctrl.config([
     },
   },
   {
-    path: '/delete-dialogs',
+    path: '/dialogs/remove',
     methods: 'POST,PUT,PATCH,DELETE',
     run: async (ctx) => {
       const body = [...ctx.request.body];

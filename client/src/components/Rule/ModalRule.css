@@ -1,0 +1,101 @@
+.CodeMirror-hints {
+  z-index: 9999; }
+
+.colorPicker {
+  position: relative;
+  z-index: 999; }
+
+.modal-rule .CodeMirror {
+  height: 100px;
+  border: 1px solid #ccc; }
+
+.modal-rule .Select-menu-outer {
+  z-index: 99; }
+
+.modal-rule .action-item {
+  position: relative; }
+  .modal-rule .action-item .index-control {
+    text-align: center;
+    position: absolute;
+    width: 25px;
+    left: -30px;
+    top: 40%;
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 30px; }
+    .modal-rule .action-item .index-control .action {
+      padding: 3px;
+      font-size: 15px; }
+      .modal-rule .action-item .index-control .action:hover {
+        cursor: pointer;
+        font-weight: bold; }
+    .modal-rule .action-item .index-control .ui.divider {
+      margin: 5px 0; }
+  .modal-rule .action-item .body {
+    border: 1px solid #ccc;
+    background: #f1f1f1;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    padding: 0 8px; }
+  .modal-rule .action-item .top-container {
+    overflow-y: auto;
+    padding: 5px; }
+    .modal-rule .action-item .top-container .index {
+      float: left;
+      font-size: 17px;
+      font-weight: 700;
+      color: #666; }
+    .modal-rule .action-item .top-container .remove-control {
+      float: right;
+      text-align: center;
+      font-size: 16px; }
+      .modal-rule .action-item .top-container .remove-control:hover {
+        cursor: pointer;
+        color: #FF5555; }
+
+.modal-rule .ui.toggle.checkbox .box:after, .modal-rule .ui.toggle.checkbox label:after {
+  border: 1px solid #ccc; }
+
+.sortable-helper {
+  z-index: 999999; }
+
+.modal-rule .reply-list {
+  list-style: none; }
+
+.modal-rule .reply-item .reply-container,
+.sortable-helper.reply-item .reply-container {
+  background: #E8E8E8;
+  padding: 5px;
+  margin-bottom: 8px;
+  border: 1px dashed #ccc;
+  position: relative; }
+  .modal-rule .reply-item .reply-container .reply-top .drag-handle,
+  .sortable-helper.reply-item .reply-container .reply-top .drag-handle {
+    cursor: move; }
+  .modal-rule .reply-item .reply-container .reply-top .remove,
+  .sortable-helper.reply-item .reply-container .reply-top .remove {
+    cursor: pointer;
+    float: right; }
+    .modal-rule .reply-item .reply-container .reply-top .remove:hover,
+    .sortable-helper.reply-item .reply-container .reply-top .remove:hover {
+      color: #FF5555; }
+
+.sortable-helper.reply-item {
+  list-style: none;
+  cursor: move; }
+
+.overlay-alert {
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transition: all 2ms ease-in-out;
+  padding: 12px;
+  z-index: 9999; }
+  .overlay-alert .negative {
+    width: 97%; }
+
+.Select-input > input {
+  height: 20px; }

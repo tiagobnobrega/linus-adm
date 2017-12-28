@@ -27,11 +27,15 @@ class RuleStore extends NeDB {
   }
 
   // inserts or update based on _id property
-  save(item) {
-    if (item._id) {
-      return this.update(item);
-    }
-    return this.insert(item);
+  save(itemsArg) {
+    const items = _.castArray(itemsArg);
+    // FIXME: Apply reduce
+    return items.map((item) => {
+      if (item._id) {
+        return this.update(item);
+      }
+      return this.insert(item);
+    });
   }
 
   findByBotId(botId) {

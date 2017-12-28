@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import  * as actions from '../../actions/botActions';
 import {getBotsNames} from '../../reducers'
@@ -29,7 +30,7 @@ class BotList extends React.Component {
   }
 
   botCardClick(bot){
-    console.log('Clicked bot',bot);
+    this.props.changePage(`diagram/${bot._id}`);
   }
   botCardEdit(bot){
     this.props.selectBot(bot);
@@ -140,7 +141,10 @@ function mapStateToProps(state) {
   }
 }
 function mapDispatchToProps(dispatch){
-  return bindActionCreators(actions ,dispatch);
+  return bindActionCreators({
+    changePage: (route) => push(`/${route}`),
+    ...actions
+  } ,dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BotList);

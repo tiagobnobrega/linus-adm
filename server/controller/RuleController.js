@@ -26,7 +26,7 @@ ctrl.config([
     },
   },
   {
-    path: '/delete-rules',
+    path: '/rules/remove',
     methods: 'POST,PUT,PATCH,DELETE',
     run: async (ctx) => {
       const body = [...ctx.request.body];
