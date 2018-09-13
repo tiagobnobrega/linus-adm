@@ -1,0 +1,79 @@
+.storm-diagrams-canvas .port.selected, .storm-diagrams-canvas .port:hover {
+  background: transparent !important; }
+
+.rule-node {
+  width: 240px;
+  box-shadow: 1px 2px 6px -1px rgba(0, 0, 0, 0.75);
+  border-radius: 8px;
+  overflow: hidden; }
+  .rule-node .header {
+    height: auto;
+    background: #404040;
+    padding: 8px;
+    box-shadow: none; }
+    .rule-node .header .title {
+      width: 169px;
+      display: inline-block; }
+      .rule-node .header .title a {
+        font-size: 14px;
+        color: #8E8E8E;
+        text-decoration: none; }
+        .rule-node .header .title a:hover {
+          cursor: pointer;
+          font-weight: bold; }
+    .rule-node .header .icon {
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      font-size: 32px;
+      padding: 3px 0px;
+      text-align: center;
+      border-radius: 3px;
+      color: #fff; }
+      .rule-node .header .icon .icon-default {
+        content: "\f0e5"; }
+  .rule-node .fa-arrow-right {
+    color: #353535; }
+  .rule-node .body {
+    background: #4d4d4d;
+    color: #777; }
+    .rule-node .body .ports {
+      height: auto;
+      overflow-y: auto;
+      overflow-x: hidden; }
+      .rule-node .body .ports .port {
+        position: relative;
+        width: auto;
+        padding: 5px 8px;
+        height: auto;
+        overflow-x: hidden;
+        background: #494949; }
+        .rule-node .body .ports .port .ic-error {
+          color: #f00; }
+        .rule-node .body .ports .port .port {
+          position: absolute;
+          top: 10px;
+          width: 20px;
+          background: transparent !important;
+          overflow-y: auto; }
+        .rule-node .body .ports .port .label {
+          margin: 0 5px; }
+        .rule-node .body .ports .port.in-port {
+          background: #4e4e4e; }
+          .rule-node .body .ports .port.in-port .port {
+            left: -11px; }
+          .rule-node .body .ports .port.in-port:first-child {
+            border-bottom: 1px solid #828282; }
+        .rule-node .body .ports .port.out-port {
+          right: 0;
+          border-bottom: 1px solid #828282;
+          background: #525252; }
+          .rule-node .body .ports .port.out-port .label, .rule-node .body .ports .port.out-port .icon-container {
+            float: right; }
+          .rule-node .body .ports .port.out-port .port {
+            right: -11px; }
+          .rule-node .body .ports .port.out-port:first-child {
+            border-bottom: none;
+            border-top: 1px solid #828282; }
+          .rule-node .body .ports .port.out-port:last-child {
+            border-bottom: none; }
