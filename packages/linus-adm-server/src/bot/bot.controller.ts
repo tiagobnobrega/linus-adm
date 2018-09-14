@@ -1,12 +1,13 @@
 import { Get, Controller } from '@nestjs/common';
+import { IBot } from './bot.interface';
 // import { AppService } from './app.service';
 
-@Controller()
-export class AppController {
+@Controller('bots')
+export class BotController {
   // constructor(private readonly appService: AppService) {}
 
   @Get()
-  root(): string {
-    // return this.appService.root();
+  findAll(): IBot[] {
+    return [{ name:'bot1', globalTokenizers:[], rootTopic:'ROOT' }];
   }
 }
