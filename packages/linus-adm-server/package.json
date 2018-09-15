@@ -5,6 +5,7 @@
   "author": "Tiago Nobrega",
   "license": "MIT",
   "scripts": {
+    "precommit": "yarn lint && yarn format",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
@@ -26,6 +27,7 @@
     "chalk": "^2.4.1",
     "dotenv": "^6.0.0",
     "eslint": "^5.5.0",
+    "husky": "^0.14.3",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
     "sqlite3": "^4.0.2",

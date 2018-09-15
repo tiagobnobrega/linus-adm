@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import {IBot} from './bot.interface';
 
 @Injectable()
 export class BotService {
-  findOne(): string {
-    return 'Hello World!!!';
+  findAll(): IBot[] {
+    return [{ name:'bot1', globalTokenizers:[], rootTopic:'ROOT' }];
   }
 }
