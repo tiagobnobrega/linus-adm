@@ -1,10 +1,16 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "precommit": "lerna run --concurrency 1 --stream precommit"
+  },
   "devDependencies": {
+    "husky": "^0.14.3",
     "lerna": "^3.3.1"
   },
   "workspaces": {
-    "packages": ["packages/*"]
+    "packages": [
+      "packages/*"
+    ]
   }
 }

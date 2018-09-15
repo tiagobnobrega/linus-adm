@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {IBot} from './bot.interface';
+import {IBot } from './bot.interface';
 
 @Injectable()
 export class BotService {
