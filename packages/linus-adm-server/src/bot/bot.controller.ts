@@ -7,7 +7,7 @@ export class BotController {
   constructor(private readonly botService: BotService) {}
 
   @Get()
-  findAll(): IBot[] {
+  async findAll(): Promise<IBot[]> {
     return this.botService.findAll();
   }
 }

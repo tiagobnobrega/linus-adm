@@ -1,18 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { IBot } from './bot.interface';
+import { IBotDao } from './dao/bot.dao.interface';
 
 @Injectable()
 export class BotService {
-  findAll(): IBot[] {
-    return [
-      { name: 'bot1', globalTokenizers: [], rootTopic: 'ROOT' },
-      { name: 'bot2', globalTokenizers: [], rootTopic: 'ROOT' },
-      { name: 'bot3', globalTokenizers: [], rootTopic: 'ROOT' },
-      { name: 'bot4', globalTokenizers: [], rootTopic: 'ROOT' },
-      { name: 'bot5', globalTokenizers: [], rootTopic: 'ROOT' },
-      { name: 'bot6', globalTokenizers: [], rootTopic: 'ROOT' },
-      { name: 'bot7', globalTokenizers: [], rootTopic: 'ROOT' },
-      { name: 'bot8', globalTokenizers: [], rootTopic: 'ROOT' },
-    ];
+  constructor(@Inject('BotDao') private readonly botDao: IBotDao) {}
+
+  findAll(): Promise<IBot[]> {
+    return this.botDao.findAll();
   }
 }

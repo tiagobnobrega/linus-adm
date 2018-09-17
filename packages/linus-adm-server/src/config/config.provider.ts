@@ -5,11 +5,11 @@ dotenv.config();
 // const logWarn = chalk.yellow;
 const logError = chalk.bold.red;
 
-export  interface EnvConfig {
-  readonly database: EnvDatabaseConfig;
+export interface IEnvConfig {
+  readonly database: IEnvDatabaseConfig;
 }
 
-export interface EnvDatabaseConfig {
+export interface IEnvDatabaseConfig {
   readonly implementation: string;
   readonly dialect: string;
   readonly options?: any;
@@ -22,13 +22,9 @@ export class ConfigurationError extends Error {
   }
 }
 
-const parseDatabase = (): EnvDatabaseConfig => {
-  const {
-    DB_IMPL = 'sequelize',
-    DB_DIALECT = 'sqlite',
-    DB_OPTIONS = '{storage:"./data/db.sqlite"}',
-  } = process.env;
-  const dbImpls = ['sequelize'];
+const parseDatabase = (): IEnvDatabaseConfig => {
+  const { DB_IMPL = 'sequelize', DB_DIALECT = 'sqlite', DB_OPTIONS = '{storage:"./data/db.sqlite"}' } = process.env;
+  const dbImpls = ['sequelize', 'mock'];
 
   if (dbImpls.indexOf(DB_IMPL) === -1) {
     const strErr = `Database implementation defined by env var DB_IMPL not supported. Expected one of: ${dbImpls}, found: ${DB_IMPL}`;
@@ -37,9 +33,9 @@ const parseDatabase = (): EnvDatabaseConfig => {
   }
 
   const dbDialects = ['mysql', 'sqlite', 'postgres', 'mssql'];
-  if (dbDialects.indexOf(DB_DIALECT)  === -1) {
+  if (dbDialects.indexOf(DB_DIALECT) === -1) {
     const strErr = `Database dialect defined by env var DB_DIALECT not supported. Expected one of: ${dbDialects}, found: ${DB_DIALECT}`;
-    logError(strErr);
+    // console.log(logError(strErr));
     throw new ConfigurationError(strErr);
   }
 
@@ -48,11 +44,11 @@ const parseDatabase = (): EnvDatabaseConfig => {
   try {
     dbOptions = JSON.parse(DB_OPTIONS);
   } catch (e) {
-    logError(`Error parsing Database Options defined by env var DB_OPTIONS: ${e.message}`);
+    // console.log(logError(`Error parsing Database Options defined by env var DB_OPTIONS: ${e.message}`));
     throw new ConfigurationError(e);
   }
 
-  const envConfig: EnvDatabaseConfig = {
+  const envConfig: IEnvDatabaseConfig = {
     implementation: DB_IMPL,
     dialect: DB_DIALECT,
     options: dbOptions,
@@ -60,7 +56,13 @@ const parseDatabase = (): EnvDatabaseConfig => {
   return envConfig;
 };
 
-const parse = (): EnvConfig => ({
+const parse = (): IEnvConfig => ({
   database: parseDatabase(),
 });
-export default parse();
+// export default parse();
+
+export const EnvConfigProvider = {
+  provide: 'EnvConfig',
+  useFactory: parse,
+  inject: [],
+};
