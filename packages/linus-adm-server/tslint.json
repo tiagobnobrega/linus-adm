@@ -10,7 +10,7 @@
     "indent": false,
     "member-access": [false],
     "ordered-imports": [false],
-    "max-line-length": [true, 150],
+    //    "max-line-length": [true, 150],
     "member-ordering": [false],
     "curly": false,
     "interface-name": [false],
@@ -23,7 +23,8 @@
     "max-classes-per-file": [false],
     "variable-name": [false],
     "one-line": [false],
-    "one-variable-per-declaration": [false]
+    "one-variable-per-declaration": [false],
+    "prettier": true
   },
-  "rulesDirectory": []
+  "rulesDirectory": ["tslint-plugin-prettier"]
 }
