@@ -1,19 +1,9 @@
 import * as dotenv from 'dotenv';
 import chalk from 'chalk';
-dotenv.config();
-
+import { Logger, Injectable, Global } from '@nestjs/common';
+import { IEnvDatabaseConfig, IEnvConfig } from './config.interfaces';
 // const logWarn = chalk.yellow;
 const logError = chalk.bold.red;
-
-export interface IEnvConfig {
-  readonly database: IEnvDatabaseConfig;
-}
-
-export interface IEnvDatabaseConfig {
-  readonly implementation: string;
-  readonly dialect: string;
-  readonly options?: any;
-}
 
 export class ConfigurationError extends Error {
   constructor(message?: string) {
@@ -22,47 +12,62 @@ export class ConfigurationError extends Error {
   }
 }
 
-const parseDatabase = (): IEnvDatabaseConfig => {
-  const { DB_IMPL = 'sequelize', DB_DIALECT = 'sqlite', DB_OPTIONS = '{storage:"./data/db.sqlite"}' } = process.env;
-  const dbImpls = ['sequelize', 'mock'];
+const parseDatabase = (procEnv = process.env): IEnvDatabaseConfig => {
+  const { ORM_TYPE = 'sqlite', ORM_HOST, ORM_PORT, ORM_DATABASE = '../db_data/sqlie/db.sqlite', ORM_USER, ORM_PWD, ORM_EXTRA } = procEnv;
+  const ormTypes = ['mysql', 'postgres', 'mariadb', 'sqlite', 'oracle', 'mssql'];
 
-  if (dbImpls.indexOf(DB_IMPL) === -1) {
-    const strErr = `Database implementation defined by env var DB_IMPL not supported. Expected one of: ${dbImpls}, found: ${DB_IMPL}`;
-    logError(strErr);
-    throw new ConfigurationError(strErr);
-  }
-
-  const dbDialects = ['mysql', 'sqlite', 'postgres', 'mssql'];
-  if (dbDialects.indexOf(DB_DIALECT) === -1) {
-    const strErr = `Database dialect defined by env var DB_DIALECT not supported. Expected one of: ${dbDialects}, found: ${DB_DIALECT}`;
-    // console.log(logError(strErr));
+  if (ormTypes.indexOf(ORM_TYPE) === -1) {
+    const strErr = `Database implementation defined by env var ORM_TYPE not supported. Expected one of: ${ormTypes}, found: ${ORM_TYPE}`;
+    Logger.error(logError(strErr));
     throw new ConfigurationError(strErr);
   }
 
   let dbOptions;
 
-  try {
-    dbOptions = JSON.parse(DB_OPTIONS);
-  } catch (e) {
-    // console.log(logError(`Error parsing Database Options defined by env var DB_OPTIONS: ${e.message}`));
-    throw new ConfigurationError(e);
+  if (ORM_EXTRA) {
+    try {
+      dbOptions = JSON.parse(ORM_EXTRA);
+    } catch (e) {
+      Logger.error(logError(`Error parsing Database Options defined by env var DB_OPTIONS: ${e.message}`));
+      throw new ConfigurationError(e);
+    }
   }
 
-  const envConfig: IEnvDatabaseConfig = {
-    implementation: DB_IMPL,
-    dialect: DB_DIALECT,
-    options: dbOptions,
+  const dbConfig: IEnvDatabaseConfig = {
+    type: ORM_TYPE,
+    host: ORM_HOST,
+    port: ORM_PORT,
+    database: ORM_DATABASE,
+    user: ORM_USER,
+    password: ORM_PWD,
   };
-  return envConfig;
+
+  validateDbConfig(dbConfig);
+  return dbConfig;
 };
 
-const parse = (): IEnvConfig => ({
-  database: parseDatabase(),
-});
-// export default parse();
+const validateDbConfig = (dbConfig: IEnvDatabaseConfig) => {
+  const requiredMap = { sqlite: ['database'], def: ['host', 'port', 'database', 'user', 'password'] };
+  const required: string[] = requiredMap[dbConfig.type] || requiredMap.def;
+  const notPresent = required.filter(att => !dbConfig[att]);
+  if (notPresent.length > 0) {
+    throw new ConfigurationError(
+      `Required attributes not found for database ORM configuration. Check .env file or environment definition. Expected: ${notPresent.join(', ')}`,
+    );
+  }
+  if (isNaN(dbConfig.port)) throw new ConfigurationError(`Invalid value for database port. Expected Number`);
+};
 
+const envConfigFactory = (): IEnvConfig => {
+  dotenv.config();
+  return {
+    database: parseDatabase(),
+  };
+};
+
+export const EnvConfig: string = 'EnvConfig';
 export const EnvConfigProvider = {
-  provide: 'EnvConfig',
-  useFactory: parse,
+  provide: EnvConfig,
+  useFactory: envConfigFactory,
   inject: [],
 };
